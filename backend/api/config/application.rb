@@ -25,7 +25,12 @@ module Api
 
     # Cookieを使う
     config.middleware.use ActionDispatch::Cookies 
+
     # セッションを使う
     config.middleware.use ActionDispatch::Session::CookieStore
+
+    # フロントとバックエンドでドメイン名が異なる場合（本番環境のため）
+    # https://www.hogehoge.com と https://api.hogehoge.com のような場合
+    config.action_dispatch.cookies_same_site_protection = :none
   end
 end
