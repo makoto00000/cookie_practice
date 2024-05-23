@@ -25,7 +25,7 @@ services:
     depends_on:
       - db
     ports:
-      - 3002:3002
+      - 3001:3001
     tty: true
     stdin_open: true
 
@@ -34,7 +34,7 @@ services:
     volumes:
       - ./frontend/app:/front
     ports:
-      - 4001:4001
+      - 3000:3000
     command: sh -c "npm install && npm run dev"
     tty: true
     stdin_open: true
