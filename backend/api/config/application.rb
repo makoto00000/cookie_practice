@@ -24,13 +24,20 @@ module Api
     config.api_only = true
 
     # Cookieを使う
-    config.middleware.use ActionDispatch::Cookies 
-
+    # CSRFトークンを使用するのにも必要 form_authenticity_tokenメソッドを使用する場合
+    # → _csrf_tokenというkeyでsessionに保存している
+    config.middleware.use ActionDispatch::Cookies
+    
     # セッションを使う
+    # Sessionに値をセットしようとすると、以下が発生
+    # ActionDispatch::Request::Session::DisabledSessionError: Your application has sessions disabled. To write to the session you must first configure a session store
     config.middleware.use ActionDispatch::Session::CookieStore
 
     # フロントとバックエンドでドメイン名が異なる場合（本番環境のため）
     # https://www.hogehoge.com と https://api.hogehoge.com のような場合
-    config.action_dispatch.cookies_same_site_protection = :none
+    # デフォルトではlaxになっている → GETメソッドは許可して、POSTメソッドではCookieを送れない
+    # :noneではないことに注意
+    config.action_dispatch.cookies_same_site_protection = nil
+
   end
 end
